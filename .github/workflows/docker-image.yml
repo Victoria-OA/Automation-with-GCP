@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use Docker Hub image for web
+        uses: docker://oluwasanmivic123/docker_web
+        with:
+          args: echo "Hello from Docker image"
+
+      - name: Use Docker Hub image for db
+        uses: docker://oluwasanmivic123/docker_db
+        with:
+          args: echo "Hello from Docker image"
