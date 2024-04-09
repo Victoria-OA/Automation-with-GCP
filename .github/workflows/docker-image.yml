@@ -25,3 +25,8 @@ jobs:
         uses: docker://oluwasanmivic123/docker_db
         with:
           args: echo "Hello from Docker image"
+      - name: Deploy to EKS
+        env:
+          KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
+        run: |
+          kubectl apply -f ./EKS
