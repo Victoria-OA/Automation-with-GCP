@@ -5,6 +5,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch ref to run workflow on'
+        required: true
+        default: 'main'
 
 jobs:
   build:
