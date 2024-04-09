@@ -16,6 +16,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+   
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} && aws configure set region us-west-2
+
+      - name: Change into Terraform directory
+        run: cd EKS
+        
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+ 
       - name: Use Docker Hub image for web
         uses: docker://oluwasanmivic123/docker_web
         with:
@@ -25,8 +44,3 @@ jobs:
         uses: docker://oluwasanmivic123/docker_db
         with:
           args: echo "Hello from Docker image"
-      - name: Deploy to EKS
-        env:
-          KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
-        run: |
-          kubectl apply -f ./EKS
